@@ -1,0 +1,27 @@
+# Byte-compiled / Python cache files
+__pycache__/
+*.py[cod]
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Virtual environment folders (if you use venv or conda)
+venv/
+env/
+.venv/
+.env/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Large raw data files (if you plan to keep them locally only)
+data/raw/*
+
+# Optional: results folder if very large (can track small plots)
+# results/*
