@@ -61,8 +61,29 @@ The aim is to automate orebody proximity classification for future drill holes u
 
 ---
 
+## 🧪 QA/QC Notes
+- The dataset does not include explicit **units** for assays.  
+- **Trace elements** (As, Au, Pb, Mo, Cu, Zn) are treated as **ppm** (mg/kg).  
+- **Major elements** (Fe, S) are reported in ranges consistent with **ppm equivalents of wt% assays** (1% = 10,000 ppm).  
+- This matters because mixing ppm and % without harmonization can distort multivariate analysis (PCA, clustering, ML).  
+- For this project, Fe and S are kept in **ppm**, but conversion to wt% (`Fe/10,000`, `S/10,000`) is noted as an option for geological interpretation.  
+- This ensures transparency: unit consistency was reviewed and documented, but full harmonization is left out of scope at this stage.
+
+---
+
+## 🙏 Acknowledgements
+This project makes use of geochemical assay data kindly provided by **Datarock**.  
+Their dataset enabled the exploration and demonstration of machine learning workflows in geoscience.  
+Special thanks to Datarock for supporting open, practical applications of data science in the mining and exploration industry.  
+
+**Citation:**  
+Dataset © Datarock, 2025. Broken Down Lead Deposit (Tasmania) geochemical assays. Used with permission for educational and research purposes.
+
+---
+
 ## 🚀 Usage
 ### 1. Clone the repo
 ```bash
 git clone https://github.com/yourusername/geochem-orebody-proximity-prediction.git
 cd geochem-orebody-proximity-prediction
+
