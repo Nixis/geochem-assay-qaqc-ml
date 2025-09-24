@@ -65,19 +65,25 @@ The aim is to automate orebody proximity classification for future drill holes u
 - The dataset does not include explicit **units** for assays.  
 - **Trace elements** (As, Au, Pb, Mo, Cu, Zn) are treated as **ppm** (mg/kg).  
 - **Major elements** (Fe, S) are reported in ranges consistent with **ppm equivalents of wt% assays** (1% = 10,000 ppm).  
-- This matters because mixing ppm and % without harmonization can distort multivariate analysis (PCA, clustering, ML).  
-- For this project, Fe and S are kept in **ppm**, but conversion to wt% (`Fe/10,000`, `S/10,000`) is noted as an option for geological interpretation.  
-- This ensures transparency: unit consistency was reviewed and documented, but full harmonization is left out of scope at this stage.
+- Fe and S are kept in **ppm**, but conversion to wt% (`Fe/10,000`, `S/10,000`) is noted as an option for geological interpretation.
+- Unit consistency was reviewed and documented, but full harmonization is left out of scope at this stage. Is noted that mixing ppm and % without harmonization can distort multivariate analysis (PCA, clustering, ML). 
+- Raw vs log plots confirmed that log transformation is essential for managing skewed geochemical distributions.
+
+## 📝Notes on Data Treatment
+
+- During exploratory data analysis (EDA), advanced steps such as **anomaly detection**, **background separation**, and **integration with geological context** were considered.  
+- Such methods are commonly applied in geochemical datasets to improve signal-to-noise distinction and enhance geological interpretation.  However, in this project these steps were **intentionally left out** to maintain focus on the main workflow.
+- The dataset was carried forward using **log-transformed values**, which provided sufficient normalization for the analysis objectives.  
 
 ---
 
-## 🙏 Acknowledgements
+## 🙏 Acknowledgments
 This project makes use of geochemical assay data kindly provided by **Datarock**.  
 Their dataset enabled the exploration and demonstration of machine learning workflows in geoscience.  
 Special thanks to Datarock for supporting open, practical applications of data science in the mining and exploration industry.  
 
 **Citation:**  
-Dataset © Datarock, 2025. Broken Down Lead Deposit (Tasmania) geochemical assays. Used with permission for educational and research purposes.
+Dataset © Datarock, 2025. Broken Down Lead Deposit (Tasmania) geochemical assays. Used with permission for educational and research purposes.  
 
 ---
 
@@ -86,4 +92,3 @@ Dataset © Datarock, 2025. Broken Down Lead Deposit (Tasmania) geochemical assay
 ```bash
 git clone https://github.com/yourusername/geochem-orebody-proximity-prediction.git
 cd geochem-orebody-proximity-prediction
-
