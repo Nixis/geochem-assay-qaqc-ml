@@ -32,6 +32,8 @@
 
 ## 🔄 Workflow
 
+![Workflow](results/fig_0_workflow.png)
+
 ### QAQC & Cleaning
 - Replace invalid placeholders with `NaN` and **flag**.  
 - Parse **truncated** values (“`<DL`”) → numeric + **trunc_flag**.  
