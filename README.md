@@ -1,4 +1,4 @@
-# geochem-assay-qaqc-ml
+# Geochem assay QAQC for Machine Learning
 
 *Quality control and exploration of a geochemical dataset to test its feasibility for predictive modeling.*
 
