@@ -70,7 +70,6 @@ Further work is required to integrate geological context, spatial information, a
 ## 🧪 Reproducible Outputs
 - `cleaned_data.csv`  
 - `cleaned_data_for_ML.csv`  
-- (to add) `predictions_unlabeled.csv` with probabilities & uncertainty
 
 ---
 
