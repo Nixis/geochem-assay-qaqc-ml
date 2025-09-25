@@ -7,12 +7,12 @@
 ## 📌 Project Goals
 1) **QAQC the dataset** (legacy + new assays) to ensure it’s clean, consistent, and traceable.  
 2) **Establish feasibility**: Can these assays + labels train a predictive model for future drill holes (Class **A** vs **B**)?  
-3) **Predict labels on new data**: Apply the trained model to the **unlabeled** samples (marked “**?**”) and export predictions for geological review.
+3) **Future step**: Once models are validated, apply them to the **unlabeled** samples (“**?**”) and export predictions for geological review.
 
 **Classes**  
 - **A** → Proximal (higher mineralization potential)  
 - **B** → Distal (lower mineralization potential)  
-- **?** → Unlabeled (to be predicted)
+- **?** → Unlabeled (to be predicted in future work)
 
 ---
 
@@ -49,13 +49,20 @@
 - **Relationships**: strong pairs (e.g., **Cu–Zn**, **Mo–Pb**); many others weak/moderate.  
 - **PCA**: PC1+PC2 ≈ **~52%** variance; partial A/B separation with overlap.
 
-### Modeling (Feasibility)
+---
+
+## 🤔 Project Feasibility
 
 The QAQC and EDA confirmed that the geochemical assay dataset can be cleaned and structured for analysis.  
-However, on its own the dataset is **not sufficient** for robust predictive modeling.  
-The dataset needs to be **enriched with additional features** and **guided by domain expertise** before predictive models can be applied with confidence.  
-Further work is required to integrate geological context, spatial information, and larger labeled datasets to improve feasibility.
+⚠️ However, the dataset alone is **not sufficient** for robust predictive modeling.  
 
+To move forward:  
+- Enrich with **geological context** and **spatial data**  
+- Incorporate **expert domain knowledge**  
+- Expand the labeled dataset (reduce class imbalance)  
+- Validate predictive models with robust cross-validation  
+
+**Conclusion:** More data and expert integration are required before reliable predictive models can be deployed.
 
 ---
 
@@ -79,5 +86,5 @@ Their dataset enabled the exploration and demonstration of machine learning work
 Special thanks to Datarock for supporting open, practical applications of data science in the mining and exploration industry.  
 
 **Citation:**  
-Dataset © Datarock, 2025. Broken Down Lead Deposit (Tasmania) geochemical assays. Used with permission for educational and research purposes.  
-
+Dataset © Datarock, 2025. Broken Down Lead Deposit (Tasmania) geochemical assays.  
+Used with permission for educational and research purposes.  
