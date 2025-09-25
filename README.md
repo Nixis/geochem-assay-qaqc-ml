@@ -1,79 +1,76 @@
-# Geochem Orebody Proximity Prediction
+# geochem-assay-qaqc-ml
 
-*Machine learning classification of geochemical drill assays to predict orebody proximity (proximal vs distal samples).*
-
----
-
-## 📌 Project Overview
-This project uses geochemical assay data from **Datarock’s Broken Down lead deposit (Tasmania)** to build a predictive model that classifies drill samples into two groups:  
-
-- **Class A** → Proximal to the orebody  
-- **Class B** → Distal from the orebody  
-
-The aim is to automate orebody proximity classification for future drill holes using machine learning.
+*Quality control and exploration of a geochemical dataset to test its feasibility for predictive modeling.*
 
 ---
 
-## 📊 Data Description
-- **Total samples**: 4,472  
-- **Features**: 8 geochemical elements (As, Au, Zn, Fe, S, Cu, Mo, Pb)  
-- **Labels**: Class A (proximal), Class B (distal), and ~800 unlabeled samples (`?`)  
-- **Additional metadata**: `uniqueID`, `holeid`, `from`, `to`  
-- **Issues handled**: missing values, invalid values (`-999`, characters), detection limit inconsistencies  
+## 📌 Project Goals
+1) **QAQC the dataset** (legacy + new assays) to ensure it’s clean, consistent, and traceable.  
+2) **Establish feasibility**: Can these assays + labels train a predictive model for future drill holes (Class **A** vs **B**)?  
+3) **Predict labels on new data**: Apply the trained model to the **unlabeled** samples (marked “**?**”) and export predictions for geological review.
+
+**Classes**  
+- **A** → Proximal (higher mineralization potential)  
+- **B** → Distal (lower mineralization potential)  
+- **?** → Unlabeled (to be predicted)
+
+---
+
+## 📊 Data Summary
+- **Samples**: ~4,771  
+- **Assays (8)**: As, Au, Pb, Fe, Mo, Cu, S, Zn  
+- **Labels**: A, B, ?  
+- **Metadata**: `Unique_ID`, `holeid`, `from`, `to`
+
+**Common data issues handled**
+- Missing values (notably **As ~31%**)  
+- Truncated values at detection limits (e.g., “`<0.005`”)  
+- Invalid placeholders (e.g., **-999**)  
+- Skewed distributions across assays
 
 ---
 
 ## 🔄 Workflow
-1. **QAQC & Cleaning**  
-   - Handle missing values  
-   - Remove invalid values (-999, non-numeric entries)  
-   - Normalize / standardize assays  
 
-2. **Exploratory Data Analysis (EDA)**  
-   - Distribution plots for each element  
-   - Correlation matrix  
-   - PCA projection to visualize class separation  
+### QAQC & Cleaning
+- Replace invalid placeholders with `NaN` and **flag**.  
+- Parse **truncated** values (“`<DL`”) → numeric + **trunc_flag**.  
+- Missing/truncated rules (per element):
+  - **<10%** → substitute (DL/√2 or median)
+  - **10–40%** → substitute **and** keep flags
+  - **>40%** → recommend **exclusion** from ML  
+- Outputs:
+  - `cleaned_data.csv` → raw + clean + flags (traceable)  
+  - `cleaned_data_for_ML.csv` → compact ML-ready (metadata + *_clean + *_flag)
 
-3. **Model Training**  
-   - Algorithms tested: Logistic Regression, Random Forest, XGBoost  
-   - Cross-validation for performance metrics  
+### Exploratory Data Analysis (EDA)
+- **Distributions**: raw values are highly skewed → use **log scale** for modeling/plots.  
+- **Class balance**: A (~60%), B (~24%), ? (~16%) → **imbalance** needs handling.  
+- **Relationships**: strong pairs (e.g., **Cu–Zn**, **Mo–Pb**); many others weak/moderate.  
+- **PCA**: PC1+PC2 ≈ **~52%** variance; partial A/B separation with overlap.
 
-4. **Evaluation**  
-   - Accuracy, Precision, Recall, F1-score  
-   - Confusion matrix  
-   - Feature importance (which elements contribute most to classification)  
+### Modeling (Feasibility)
 
-5. **Prediction on Unlabeled Samples**  
-   - Generate predicted labels for the `?` samples  
-   - Export results for downstream use  
+The QAQC and EDA confirmed that the geochemical assay dataset can be cleaned and structured for analysis.  
+However, on its own the dataset is **not sufficient** for robust predictive modeling.  
+The dataset needs to be **enriched with additional features** and **guided by domain expertise** before predictive models can be applied with confidence.  
+Further work is required to integrate geological context, spatial information, and larger labeled datasets to improve feasibility.
 
----
-
-## 📈 Results
-- **Best model:** Random Forest (placeholder – update once tested)  
-- **Accuracy:** XX%  
-- **Key features:** Fe, Pb, S (example – update with real importance plot)  
-
-**Example outputs (to include once generated):**  
-- Feature importance bar chart  
-- Confusion matrix heatmap  
-- PCA plot with predicted vs actual labels  
 
 ---
 
-## 🧪 QA/QC Notes
-- The dataset does not include explicit **units** for assays.  
-- **Trace elements** (As, Au, Pb, Mo, Cu, Zn) are treated as **ppm** (mg/kg).  
-- **Major elements** (Fe, S) are reported in ranges consistent with **ppm equivalents of wt% assays** (1% = 10,000 ppm).  
-- Fe and S are kept in **ppm**, but conversion to wt% (`Fe/10,000`, `S/10,000`) is noted as an option for geological interpretation.
-- Unit consistency was reviewed and documented, but full harmonization is left out of scope at this stage. Is noted that mixing ppm and % without harmonization can distort multivariate analysis (PCA, clustering, ML). 
-- Raw vs log plots confirmed that log transformation is essential for managing skewed geochemical distributions.
+## 📈 Current Findings (from QAQC + EDA)
+- **Log transform is essential** (skew reduction, clearer patterns).  
+- Strong signals from **Cu, Zn, Pb, Mo**, with Fe and S providing context.  
+- **As** retained (31% missing) with flags; **Au** often near detection limit.  
+- **Imbalance** will bias naive models → use class weights or resampling.
 
-## 📝Notes on Data Treatment
+---
 
-- During exploratory data analysis (EDA), advanced steps such as **anomaly detection**, **background separation**, and **integration with geological context** were considered.  
-- Such methods are commonly applied in geochemical datasets to improve signal-to-noise distinction and enhance geological interpretation.  However, in this project these steps were **intentionally left out** to maintain focus on the main workflow.
-- The dataset was carried forward using **log-transformed values**, which provided sufficient normalization for the analysis objectives.  
+## 🧪 Reproducible Outputs
+- `cleaned_data.csv`  
+- `cleaned_data_for_ML.csv`  
+- (to add) `predictions_unlabeled.csv` with probabilities & uncertainty
 
 ---
 
@@ -85,10 +82,3 @@ Special thanks to Datarock for supporting open, practical applications of data s
 **Citation:**  
 Dataset © Datarock, 2025. Broken Down Lead Deposit (Tasmania) geochemical assays. Used with permission for educational and research purposes.  
 
----
-
-## 🚀 Usage
-### 1. Clone the repo
-```bash
-git clone https://github.com/yourusername/geochem-orebody-proximity-prediction.git
-cd geochem-orebody-proximity-prediction
